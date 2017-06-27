@@ -6,8 +6,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.essejose.metrosp.adpter.LinhaAdpter;
+import com.essejose.metrosp.adpter.OnItemClickListner;
 import com.essejose.metrosp.api.APIUtils;
 import com.essejose.metrosp.api.LinhaAPI;
 import com.essejose.metrosp.model.Linha;
@@ -35,7 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
         rvLinhas = (RecyclerView) findViewById(R.id.rvLinhas);
 
-        linhaAdpter = new LinhaAdpter( new ArrayList<Linha>());
+        linhaAdpter = new LinhaAdpter(new ArrayList<Linha>(),
+                new OnItemClickListner() {
+                    @Override
+                    public void onItemClick(Linha item) {
+                        Toast.makeText(getApplicationContext(),
+                                item.getCor(),Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvLinhas.setLayoutManager(layoutManager);
