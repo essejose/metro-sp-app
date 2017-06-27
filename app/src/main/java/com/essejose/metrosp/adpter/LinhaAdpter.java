@@ -47,7 +47,7 @@ public class LinhaAdpter extends RecyclerView.Adapter<LinhaAdpter.LinhaViewHolde
 
         Picasso.with(holder.itemView.getContext())
                 .load(APIUtils.BASE_URL + linhas.get(position).getUrlImage())
-                .placeholder(android.R.drawable.star_on)
+                .placeholder(android.R .drawable.star_on)
                 .into(holder.ivLogo);
     }
 
