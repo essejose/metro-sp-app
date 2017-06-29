@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
                         Intent telamapa = new Intent(
                                 MainActivity.this,MapaActivity.class
                         );
-
                        // telamapa.putExtra("lat", item.());
 
                         startActivity(telamapa);
