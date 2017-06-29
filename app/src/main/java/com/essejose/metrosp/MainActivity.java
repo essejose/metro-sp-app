@@ -41,14 +41,14 @@ public class MainActivity extends AppCompatActivity {
         linhaAdpter = new LinhaAdpter(new ArrayList<Linha>(),
                 new OnItemClickListner() {
                     @Override
-                    public void onItemClick(Linha item) {
+                    public void onItemClick(Linha linha) {
                         //Toast.makeText(getApplicationContext(),
                           //      item.getCor(),Toast.LENGTH_SHORT).show();
 
                         Intent telamapa = new Intent(
                                 MainActivity.this,MapaActivity.class
                         );
-                         telamapa.putExtra("lat", item.getCor());
+                         telamapa.putExtra("LINHA",linha );
 
                         startActivity(telamapa);
 

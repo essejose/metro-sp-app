@@ -13,4 +13,6 @@ public class APIUtils {
 
         return RetrofitClient.getClient(BASE_URL).create(LinhaAPI.class);
     }
+
+
 }

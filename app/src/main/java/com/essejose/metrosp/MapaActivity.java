@@ -2,7 +2,12 @@ package com.essejose.metrosp;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.essejose.metrosp.api.APIUtils;
+import com.essejose.metrosp.api.LinhaAPI;
+import com.essejose.metrosp.model.Estacao;
+import com.essejose.metrosp.model.Linha;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -10,9 +15,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MapaActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    private Linha linha;
+    private LinhaAPI linhaAPI;
+    private static final String TAG = "MyActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +37,38 @@ public class MapaActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        if(getIntent() != null){
+            linha = getIntent().getParcelableExtra("LINHA");
+        }
+
+        carregaEstaca();
     }
 
+    private  void carregaEstaca(){
+        linhaAPI = APIUtils.getLinhaAPI();
+        linhaAPI.getEstacao(linha.getCor()).enqueue(new Callback<List<Estacao>>() {
+            @Override
+            public void onResponse(Call<List<Estacao>> call, Response<List<Estacao>> response) {
+                if(response.isSuccessful()){
+                   for( Estacao e : response.body()){
+
+                        LatLng estacao = new LatLng(Double.parseDouble(e.getLatitude()),
+                                Double.parseDouble(e.getLongitude()));
+
+                        mMap.addMarker(new MarkerOptions().position(estacao).title("Mark" + e.getNome()));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(estacao,18));
+                   }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Estacao>> call, Throwable t) {
+                Log.v(TAG, t.getMessage());
+            }
+        });
+    }
 
     /**
      * Manipulates the map once available.
