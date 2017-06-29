@@ -1,5 +1,6 @@
 package com.essejose.metrosp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -41,8 +42,17 @@ public class MainActivity extends AppCompatActivity {
                 new OnItemClickListner() {
                     @Override
                     public void onItemClick(Linha item) {
-                        Toast.makeText(getApplicationContext(),
-                                item.getCor(),Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),
+                          //      item.getCor(),Toast.LENGTH_SHORT).show();
+
+                        Intent telamapa = new Intent(
+                                MainActivity.this,MapaActivity.class
+                        );
+
+                       // telamapa.putExtra("lat", item.());
+
+                        startActivity(telamapa);
+
                     }
                 });
 
